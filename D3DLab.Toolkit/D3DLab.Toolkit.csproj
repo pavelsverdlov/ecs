@@ -1,0 +1,72 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Math3D\Cylinder3.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Techniques\Background\shader.hlsl" />
+    <None Remove="Techniques\CameraViews\camera_views.hlsl" />
+    <None Remove="Techniques\Lines\simple_lines.hlsl" />
+    <None Remove="Techniques\ManipulationTool\manipulate_tool.hlsl" />
+    <None Remove="Techniques\OneFrameFlatWhite\shader.hlsl" />
+    <None Remove="Techniques\OrderIndependentTransparency\helix_oit.hlsl" />
+    <None Remove="Techniques\OrderIndependentTransparency\helix_oit_quard.hlsl" />
+    <None Remove="Techniques\OrderIndependentTransparency\OIT.hlsl" />
+    <None Remove="Techniques\OrderIndependentTransparency\oit_colored_vertex - Copy.hlsl" />
+    <None Remove="Techniques\OrderIndependentTransparency\oit_colored_vertex.hlsl" />
+    <None Remove="Techniques\SpherePoint\sphere_point.hlsl" />
+    <None Remove="Techniques\TriangleColored\colored_vertex.hlsl" />
+    <None Remove="Techniques\TriangleColored\gs_flat_shading.hlsl" />
+    <None Remove="Techniques\TriangleColored\wireframe.hlsl" />
+    <None Remove="Techniques\TriangleTextured\gs_flat_shading.hlsl" />
+    <None Remove="Techniques\TriangleTextured\textured_vertex.hlsl" />
+    <None Remove="_CommonShaders\Common.hlsl" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Techniques\Background\shader.hlsl" />
+    <EmbeddedResource Include="Techniques\CameraViews\camera_views.hlsl" />
+    <EmbeddedResource Include="Techniques\Lines\simple_lines.hlsl" />
+    <EmbeddedResource Include="Techniques\ManipulationTool\manipulate_tool.hlsl" />
+    <EmbeddedResource Include="Techniques\OneFrameFlatWhite\shader.hlsl" />
+    <EmbeddedResource Include="Techniques\OrderIndependentTransparency\helix_oit.hlsl" />
+    <EmbeddedResource Include="Techniques\OrderIndependentTransparency\helix_oit_quard.hlsl" />
+    <EmbeddedResource Include="Techniques\OrderIndependentTransparency\OIT.hlsl" />
+    <EmbeddedResource Include="Techniques\OrderIndependentTransparency\oit_colored_vertex - Copy.hlsl" />
+    <EmbeddedResource Include="Techniques\OrderIndependentTransparency\oit_colored_vertex.hlsl" />
+    <EmbeddedResource Include="Techniques\SpherePoint\sphere_point.hlsl" />
+    <EmbeddedResource Include="Techniques\TriangleColored\colored_vertex.hlsl" />
+    <EmbeddedResource Include="Techniques\TriangleColored\gs_flat_shading.hlsl" />
+    <EmbeddedResource Include="Techniques\TriangleColored\wireframe.hlsl" />
+    <EmbeddedResource Include="Techniques\TriangleTextured\gs_flat_shading.hlsl" />
+    <EmbeddedResource Include="Techniques\TriangleTextured\textured_vertex.hlsl" />
+    <EmbeddedResource Include="_CommonShaders\Common.hlsl" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="geometry3Sharp" Version="1.0.324" />
+    <PackageReference Include="SharpDX" Version="4.2.0" />
+    <PackageReference Include="SharpDX.D3DCompiler" Version="4.2.0" />
+    <PackageReference Include="SharpDX.Direct2D1" Version="4.2.0" />
+    <PackageReference Include="SharpDX.Direct3D11" Version="4.2.0" />
+    <PackageReference Include="SharpDX.Direct3D9" Version="4.2.0" />
+    <PackageReference Include="SharpDX.Mathematics" Version="4.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\D3DLab.ECS\D3DLab.ECS.csproj" />
+    <ProjectReference Include="..\D3DLab.FileFormats\D3DLab.FileFormats.csproj" />
+    <ProjectReference Include="..\D3DLab.SDX.Engine\D3DLab.SDX.Engine.csproj" />
+  </ItemGroup>
+
+</Project>
