@@ -47,13 +47,13 @@ namespace D3DLab.ECS {
             return entities.Keys.Select(_CreateEntity);
         }
         public GraphicEntity GetEntity(ElementTag tag) {
-            return new GraphicEntity(tag, this, this, orderContainer);
+            return GraphicEntity.Create(tag, this, this, orderContainer);
         }
         public GraphicEntity GetEntityOf<T>(T com) where T : IGraphicComponent {
             var typec = typeof(T);
             foreach (var en in entities) {
                 if (en.Value.TryGetValue(typec, out var tag) && tag == com.Tag) {
-                    return new GraphicEntity(en.Key, this, this, orderContainer);
+                    return GraphicEntity.Create(en.Key, this, this, orderContainer);
                 }
             }
             return GraphicEntity.Empty();
@@ -73,7 +73,7 @@ namespace D3DLab.ECS {
         }
 
         GraphicEntity _CreateEntity(ElementTag tag) {
-            return new GraphicEntity(tag, this, this, orderContainer);
+            return GraphicEntity.Create(tag, this, this, orderContainer);
         }
 
         #endregion

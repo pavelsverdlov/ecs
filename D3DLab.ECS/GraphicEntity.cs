@@ -55,7 +55,10 @@ namespace D3DLab.ECS {
         /// </summary>
         /// <returns></returns>
         public static GraphicEntity Empty() {
-            return new GraphicEntity(ElementTag.Empty, new EmptyManager(), new EmptyManager(), new EntityOrderContainer());
+            return new GraphicEntity(ElementTag.Empty, new EmptyManager(), new EmptyManager(), new EntityOrderContainer(), true);
+        }
+        public static GraphicEntity Create(ElementTag tag, IComponentManager manager, IEntityManager emanager, EntityOrderContainer order) {
+          return new GraphicEntity(tag, manager, emanager, order, false);
         }
 
 
@@ -64,12 +67,12 @@ namespace D3DLab.ECS {
         readonly IEntityManager emanager;
         readonly EntityOrderContainer order;
 
-        internal GraphicEntity(ElementTag tag, IComponentManager manager, IEntityManager emanager,EntityOrderContainer order) {
+        GraphicEntity(ElementTag tag, IComponentManager manager, IEntityManager emanager,EntityOrderContainer order, bool empty) {
             this.order = order;
             this.manager = manager;
             this.emanager = emanager;
             Tag =tag;
-           
+            IsEmpty = empty;
         }
         /// <summary>
         /// 
@@ -143,6 +146,7 @@ namespace D3DLab.ECS {
         }
 
         public bool IsDestroyed => !emanager.IsExisted(Tag);
+        public bool IsEmpty { get; }
 
         public override string ToString() {
             return $"Entity[{Tag}]";
