@@ -12,8 +12,10 @@ namespace D3DLab.Plugin {
 
         readonly string directory;
         readonly string pluginFormatName;
+        const string dll = ".dll";
+        const string nameFormat = "*Plugin*";
 
-        public PluginProxy(string directory, string pluginFormatName = "*Plugin*") {
+        public PluginProxy(string directory, string pluginFormatName = nameFormat) {
             Plugins = new List<LoadedPlugin>();
             this.directory = directory;
             this.pluginFormatName = pluginFormatName;
@@ -24,7 +26,7 @@ namespace D3DLab.Plugin {
 
             var type = typeof(IPlugin);
             foreach (var pluginDll in Directory.GetFiles(directory, pluginFormatName, SearchOption.AllDirectories)) {
-                if (pluginDll.EndsWith(".dll")) {
+                if (pluginDll.EndsWith(dll)) {
                     try {
                         var loader = PluginLoader.CreateFromAssemblyFile(
                             assemblyFile: pluginDll,
