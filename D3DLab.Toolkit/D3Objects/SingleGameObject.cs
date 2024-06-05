@@ -1,14 +1,9 @@
 ﻿using D3DLab.ECS;
-using D3DLab.ECS.Components;
 using D3DLab.Toolkit.Components;
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
-
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace D3DLab.Toolkit.D3Objects {
     public class MultiVisualObject : GameObject {
@@ -29,12 +24,13 @@ namespace D3DLab.Toolkit.D3Objects {
         void Cleanup(ElementTag tag, IContextState context) {
             context.GetEntityManager().RemoveEntity(tag);
         }
-        void Hide(ElementTag tag, IEntityManager manager) {
+        protected void Hide(ElementTag tag, IEntityManager manager) {
             var en = manager.GetEntity(tag);
+
             en.UpdateComponent(en.GetComponent<RenderableComponent>().Disable());
         }
 
-        void Show(ElementTag tag, IEntityManager manager) {
+        protected void Show(ElementTag tag, IEntityManager manager) {
             var en = manager.GetEntity(tag);
             en.UpdateComponent(en.GetComponent<RenderableComponent>().Enable());
         }

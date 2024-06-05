@@ -28,7 +28,7 @@ namespace D3DLab.Plugin {
         public UserControl View { get; }
     }
 
-    public abstract class APluginRunner : IPlugin {
+    public abstract class APluginRunner : ID3DLabPlugin {
         public string Name { get; }
         public string Description { get; }
 

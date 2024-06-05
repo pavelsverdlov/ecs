@@ -20,7 +20,7 @@ namespace D3DLab.FileFormats.GeoFormats {
         ReadOnlyCollection<Vector3> Normals { get; }
         ReadOnlyCollection<int> Indices { get; }
         ReadOnlyCollection<Vector2> TextureCoors { get; }
-        ReadOnlyCollection<Vector3> Colors { get; }
+        ReadOnlyCollection<Vector4> Colors { get; }
         GeometryPrimitiveTopologies Topology { get; }
 
         IFileGeometry3D ApplyMatrix(ref Matrix4x4 matrix);

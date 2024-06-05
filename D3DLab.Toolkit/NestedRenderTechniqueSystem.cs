@@ -54,7 +54,7 @@ namespace D3DLab.Toolkit {
             //    en.UpdateComponent(TransformComponent.Create(matrixWorld));
             //}
 
-            if (!render.TransformWorldBuffer.HasValue) {
+            if (!render.TransformWorldBuffer.HasValue || render.TryUpdateMatrix(matrixWorld)) {
                 var tr = TransforStructBuffer.ToTranspose(matrixWorld);
 
                 if (render.TransformWorldBuffer.HasValue) {

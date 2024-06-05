@@ -40,13 +40,17 @@ namespace D3DLab.Toolkit {
         public static string ToHexString(this System.Windows.Media.Color color) {
             return new System.Windows.Media.ColorConverter().ConvertToString(color);
         }
+        //public static string ToHexString(this System.Windows.Media.Brush color) {
+        //    return new System.Windows.Media.ColorConverter().ConvertToString(color);
+        //}
+
         //
     }
 
     public static class FileFormatEx {
         public static ImmutableGeometryData ToGeometryData(this IFileGeometry3D fgeo) {// 
             return new ImmutableGeometryData(fgeo.Positions, fgeo.Normals, fgeo.Indices, 
-                fgeo.TextureCoors, fgeo.Colors.Select(x=>x.ToVector4()).ToList());
+                fgeo.TextureCoors, fgeo.Colors.ToList());
         }
     }
 

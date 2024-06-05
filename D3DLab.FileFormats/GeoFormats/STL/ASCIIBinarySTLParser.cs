@@ -12,18 +12,18 @@ using System.Text;
 namespace D3DLab.FileFormats.GeoFormats.STL {
     public sealed class ASCIIBinarySTLParser : IUtf8SpanReader {
         class Geo {
-            private readonly Vector3 color;
+            private readonly Vector4 color;
             public List<Vector3> positions;
             public List<Vector3> normals;
-            public List<Vector3> colors;
+            public List<Vector4> colors;
             public List<Vector2> tex;
             public List<int> indices;
             public Dictionary<Vector3, int> map = new Dictionary<Vector3, int>();
 
-            public Geo(Vector3 color) {
+            public Geo(Vector4 color) {
                 positions = new List<Vector3>();
                 normals = new List<Vector3>();
-                colors = new List<Vector3>();
+                colors = new List<Vector4>();
                 tex = new List<Vector2>();
                 indices = new List<int>();
                 this.color = color;
@@ -36,7 +36,7 @@ namespace D3DLab.FileFormats.GeoFormats.STL {
 
         public List<IFileGeometry3D> Geometry => map.Values.Select(x => x.GetMesh()).ToList();
 
-        Dictionary<Vector3, Geo> map = new Dictionary<Vector3, Geo>();
+        Dictionary<Vector4, Geo> map = new Dictionary<Vector4, Geo>();
 
         public void Read(Stream stream) {
             var asc = Encoding.ASCII;
@@ -91,7 +91,7 @@ namespace D3DLab.FileFormats.GeoFormats.STL {
                     geo.indices.Add(geo.map[v1]);
                     geo.indices.Add(geo.map[v2]);
 
-                    lastColor = color;
+                    //lastColor = color;
 
                     //var blue = binary.ReadByte();
                     //var green = binary.ReadByte();
@@ -102,7 +102,7 @@ namespace D3DLab.FileFormats.GeoFormats.STL {
                 }
             }
         }
-        static Vector3 ReadColor(BinaryReader binary) {//BitArray bits
+        static Vector4 ReadColor(BinaryReader binary) {//BitArray bits
             //var blue = Convert4BitsToInt(bits, 0);
             //var green = Convert4BitsToInt(bits, 5);
             //var red = Convert4BitsToInt(bits, 10);
@@ -133,7 +133,7 @@ namespace D3DLab.FileFormats.GeoFormats.STL {
             red = attrib[1].Equals('1') ? red + 16 : red;
             int r = red * 8;
 
-            return new Vector3(Convert.ToByte(r), Convert.ToByte(g), Convert.ToByte(b));
+            return new Vector4(Convert.ToByte(r), Convert.ToByte(g), Convert.ToByte(b), 1);
         }
 
         static float Convert4BitsToInt(BitArray bits, int start) {

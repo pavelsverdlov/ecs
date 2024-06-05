@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace D3DLab.ECS.Input {  
 
@@ -29,6 +30,14 @@ namespace D3DLab.ECS.Input {
 
         public void Synchronize(int theadId) {
             synchronization.Synchronize(theadId);
+        }
+
+        public Task InvokeAsync<TOwner>(TOwner owner, Action<TOwner> action) {
+            throw new NotImplementedException();
+            //return context.Add((owner, obj) => {
+            //    action();
+            //    return true;
+            //}, owner, new object());
         }
     }
 }

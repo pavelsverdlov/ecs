@@ -43,14 +43,14 @@ namespace D3DLab.FileFormats.GeoFormats._OBJ {
         public readonly List<Vector2> TextureCoorsCache;
         public readonly List<Vector3> PositionsCache;
         public readonly List<Vector3> NormalsCache;
-        public readonly List<Vector3> ColorsCache;
+        public readonly List<Vector4> ColorsCache;
         public int VertexCount { get; internal set; }
 
         readonly Dictionary<string, OBJGroupGeometryCache> groupMap;
         public OBJGeometryCache() {
             groupMap = new Dictionary<string, OBJGroupGeometryCache>();
             PositionsCache = new List<Vector3>();
-            ColorsCache = new List<Vector3>();
+            ColorsCache = new List<Vector4>();
             NormalsCache = new List<Vector3>();
             TextureCoorsCache = new List<Vector2>();           
         }
@@ -88,7 +88,7 @@ namespace D3DLab.FileFormats.GeoFormats._OBJ {
         public void AddNormal(ref Vector3 v) {
             cache.NormalsCache.Add(v);
         }
-        public void AddColor(ref Vector3 v) {
+        public void AddColor(ref Vector4 v) {
             cache.ColorsCache.Add(v);
         }
 

@@ -178,7 +178,7 @@ namespace D3DLab.ECS {
             return types.All(type => entities[entity].ContainsKey(type));
         }
 
-        public Task UpdateComponents<T>(ElementTag tagEntity, T newComponent) where T : IGraphicComponent {
+        public Task UpdateComponent<T>(ElementTag tagEntity, T newComponent) where T : IGraphicComponent {
             if (typeof(T) == typeof(IGraphicComponent)) {
                 throw new NotSupportedException("IGraphicComponent is incorrect type, must be the certain component type.");
             }
@@ -208,6 +208,42 @@ namespace D3DLab.ECS {
                 return true;
             }, newComponent);
         }
+
+        public Task UpdateComponents<T>(ElementTag tagEntity, params T[] newComponents) where T : IGraphicComponent {
+            //if (typeof(T) == typeof(IGraphicComponent)) {
+            //    throw new NotSupportedException("IGraphicComponent is incorrect type, must be the certain component type.");
+            //}
+
+            if (newComponents.Any(com => components.ContainsKey(com.Tag))) {
+                throw new NotSupportedException($"Some components are already belong to other Entity.");
+            }
+
+            return comSynchronizer.Add((owner, componentsToUpdate) => {
+                foreach(var newCom in componentsToUpdate) {
+                    var type = newCom.GetType();
+                    //do not check IsValid OR IsDisposed because it is not important for removing 
+                    if (entities[tagEntity].TryGetValue(type, out var oldTag)) {
+                        components[oldTag].Dispose();
+                        var removed = components.Remove(oldTag);
+                        notify.NotifyRemove(oldTag);
+
+                        entities[tagEntity][type] = newCom.Tag;
+                    } else {
+                        //case: if it is updating not existed component
+                        entities[tagEntity].Add(type, newCom.Tag);
+                    }
+#if DEBUG
+                    Debug.Assert(!components.ContainsKey(newCom.Tag));
+#endif
+                    components.Add(newCom.Tag, newCom);
+
+                    notify.NotifyAdd(newCom);
+                }
+
+                return true;
+            }, newComponents);
+        }
+
 
         bool _AddComponent<T>(in ElementTag tagEntity, in T com) where T : IGraphicComponent {
             if (!entities.ContainsKey(tagEntity)) {

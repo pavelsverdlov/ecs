@@ -11,7 +11,9 @@ namespace D3DLab.ECS {
     public enum GeometryPrimitiveTopologies {
         Undefined,
         TriangleList,
-        TriangleFan
+        TriangleFan,
+        LineStrip,
+        LineList
     }
 
     public readonly struct HitResultLocal {

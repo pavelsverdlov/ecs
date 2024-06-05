@@ -4,6 +4,7 @@ using D3DLab.ECS.Ext;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -14,7 +15,7 @@ namespace D3DLab.FileFormats.GeoFormats._OBJ {
             string group,
             List<Vector3> positions,
             List<Vector3> normals,
-            List<Vector3> colors,
+            List<Vector4> colors,
             List<int> indices,
             List<Vector2> textureCoors,
             GeometryPrimitiveTopologies topology) {
@@ -31,7 +32,7 @@ namespace D3DLab.FileFormats.GeoFormats._OBJ {
         public GeometryPrimitiveTopologies Topology { get; }
         public ReadOnlyCollection<Vector3> Positions { get; }
         public ReadOnlyCollection<Vector3> Normals { get; }
-        public ReadOnlyCollection<Vector3> Colors { get; }
+        public ReadOnlyCollection<Vector4> Colors { get; }
         public ReadOnlyCollection<int> Indices { get; }
         public ReadOnlyCollection<Vector2> TextureCoors { get; }
 
@@ -52,7 +53,7 @@ namespace D3DLab.FileFormats.GeoFormats._OBJ {
         protected List<int> Indices;
         protected List<Vector3> Positions;
         protected Vector3[] Normals;
-        protected Vector3[] Colors;
+        protected Vector4[] Colors;
         protected Vector2[] TextureCoors;
 
         protected BaseGroupsBulder(OBJGeometryCache _base) {
@@ -103,7 +104,7 @@ namespace D3DLab.FileFormats.GeoFormats._OBJ {
             Positions = _base.PositionsCache;
             Indices = new List<int>(_base.VertexCount);
             Normals = _base.NormalsCache.Any() ? new Vector3[Positions.Count] : Array.Empty<Vector3>();
-            Colors = _base.ColorsCache.Any() ? new Vector3[Positions.Count] : Array.Empty<Vector3>();
+            Colors = _base.ColorsCache.Any() ? new Vector4[Positions.Count] : Array.Empty<Vector4>();
             TextureCoors = _base.TextureCoorsCache.Any() ? new Vector2[Positions.Count] : Array.Empty<Vector2>();
         }
 
@@ -134,6 +135,14 @@ namespace D3DLab.FileFormats.GeoFormats._OBJ {
             indxToPos = new Dictionary<int, int>();
         }
 
+        public IEnumerable<IFileGeometry3D> BuildPolyline() {
+            return new IFileGeometry3D[] {
+                new GeometryData("", cache.PositionsCache,
+                    new List<Vector3>(), new List<Vector4>(), new List<int>(), new List<Vector2>(), 
+                    GeometryPrimitiveTopologies.LineStrip),
+            };
+        }
+
         public IEnumerable<IFileGeometry3D> Build() => Build(GeometryPrimitiveTopologies.TriangleList);
 
         public IEnumerable<IFileGeometry3D> Build(GeometryPrimitiveTopologies newTopology) {
@@ -161,7 +170,7 @@ namespace D3DLab.FileFormats.GeoFormats._OBJ {
                 AddPosition(group.Vertices[index]);
             }
             Normals = cache.NormalsCache.Any() ? new Vector3[Positions.Count] : Array.Empty<Vector3>();
-            Colors = cache.ColorsCache.Any() ? new Vector3[Positions.Count] : Array.Empty<Vector3>();
+            Colors = cache.ColorsCache.Any() ? new Vector4[Positions.Count] : Array.Empty<Vector4>();
             TextureCoors = cache.TextureCoorsCache.Any() ? new Vector2[Positions.Count] : Array.Empty<Vector2>();
             //add the rest of data
             for (var index = 0; index < group.Vertices.Count; index += 3) {

@@ -164,8 +164,8 @@ namespace D3DLab.FileFormats.GeoFormats._OBJ {
                     if (!part.IsEmpty) {//format 'v' line with colors
                                         //example: v -2.503583 6.779097 -5.350025 0.0 128.0 0.0
                         SplitVertex(ref part, floats);
-                        v = new Vector3(floats[0], floats[1], floats[2]);
-                        current.AddColor(ref v);
+                        var color = new Vector4(floats[0], floats[1], floats[2], 1);
+                        current.AddColor(ref color);
                     }
                     if (!part.IsEmpty) {
                         throw new NotSupportedException("Unexpected vertex format.");

@@ -20,7 +20,7 @@ namespace D3DLab.Toolkit.Math3D {
             public MeshData(string name,
                 ReadOnlyCollection<Vector3> positions, ReadOnlyCollection<Vector3> normals,
                 ReadOnlyCollection<int> indices, ReadOnlyCollection<Vector2> textureCoors,
-                ReadOnlyCollection<Vector3> colors) {
+                ReadOnlyCollection<Vector4> colors) {
                 Name = name;
                 Positions = positions;
                 Normals = normals;
@@ -35,7 +35,7 @@ namespace D3DLab.Toolkit.Math3D {
             public ReadOnlyCollection<Vector3> Normals { get; }
             public ReadOnlyCollection<int> Indices { get; }
             public ReadOnlyCollection<Vector2> TextureCoors { get; }
-            public ReadOnlyCollection<Vector3> Colors { get; }
+            public ReadOnlyCollection<Vector4> Colors { get; }
             public GeometryPrimitiveTopologies Topology { get; }
 
             public IFileGeometry3D ApplyMatrix(ref Matrix4x4 matrix) {

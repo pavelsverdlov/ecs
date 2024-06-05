@@ -30,6 +30,8 @@ namespace D3DLab.Plugin {
         GameObject DrawArrow(string key, ArrowDetails ad);
         GameObject DrawPolyline(string key, Vector3[] margin, Vector4 green);
         GameObject DrawCylinder(string key, CylinderDetails cyl);
+        //GameObject DrawBox(string key, CylinderDetails cyl);
+
         void DrawObject(GameObject obj);
         void MoveCameraToEntity(GameObject obj);
         GraphicEntity GetWorld();

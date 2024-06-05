@@ -1,9 +1,10 @@
 ﻿using D3DLab.ECS;
 using D3DLab.SDX.Engine;
 using D3DLab.SDX.Engine.Rendering;
+
 using SharpDX.Direct3D;
 using SharpDX.Direct3D11;
-using System;
+
 using System.Collections.Generic;
 using System.Text;
 
@@ -17,7 +18,6 @@ namespace D3DLab.Toolkit.Components {
         Background,
         SpherePoints, 
     }
-
 
     /// <summary>
     /// Component to allow rendering

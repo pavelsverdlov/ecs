@@ -107,6 +107,13 @@ namespace D3DLab.ECS.Sync {
                 }
             }
         }
+        public Task InvokeAsync<TOwner>(TOwner owner, Action<TOwner> action) {
+            return Add((owner, obj) => {
+                action(owner);
+                return true;
+            }, owner, new object());
+        }
+
 
         public void Dispose() {
             queue.Clear();

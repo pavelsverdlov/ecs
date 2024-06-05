@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace D3DLab.ECS.Sync {
     public interface ISynchronization {
         void Synchronize(int theadId);
+        Task InvokeAsync<TOwner>(TOwner owner, Action<TOwner> action);
     }
     public interface ISynchronizationContext : ISynchronization {
         bool HasChanges { get; }

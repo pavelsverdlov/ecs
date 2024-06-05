@@ -5,6 +5,7 @@ using D3DLab.SDX.Engine.Rendering;
 using SharpDX.Direct3D;
 using SharpDX.Direct3D11;
 using System;
+using System.Numerics;
 
 namespace D3DLab.SDX.Engine.Components {
     
@@ -43,6 +44,8 @@ namespace D3DLab.SDX.Engine.Components {
         public DisposableSetter<SamplerState> SampleState { get; set; }
 
         protected readonly DisposeObserver disposer;
+        Matrix4x4 prevMatrix;
+
         public D3DRenderComponent() {
             CanRender = true;
             IsModified = true;
@@ -68,6 +71,17 @@ namespace D3DLab.SDX.Engine.Components {
             disposer.DisposeObservables();
             CanRender = true;
             IsModified = true;
+        }
+
+        /// <summary>
+        /// Update matrix of this render components 
+        /// TRUE - if matrix has diff and was updated
+        /// FALSE - matrix is the same
+        /// </summary>
+        public bool TryUpdateMatrix(Matrix4x4 newpne) {
+            if(prevMatrix == newpne) return false; 
+            prevMatrix = newpne;
+            return true;
         }
 
     }

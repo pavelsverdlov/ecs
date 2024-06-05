@@ -9,6 +9,7 @@ using McMaster.NETCore.Plugins;
 namespace D3DLab.Plugin {
     public class PluginProxy {
         public List<LoadedPlugin> Plugins { get; }
+        public List<LoadedFileFormatPlugin> FileFormatPlugins { get; }
 
         readonly string directory;
         readonly string pluginFormatName;
@@ -17,6 +18,7 @@ namespace D3DLab.Plugin {
 
         public PluginProxy(string directory, string pluginFormatName = nameFormat) {
             Plugins = new List<LoadedPlugin>();
+            FileFormatPlugins = new List<LoadedFileFormatPlugin>();
             this.directory = directory;
             this.pluginFormatName = pluginFormatName;
         }
@@ -24,7 +26,10 @@ namespace D3DLab.Plugin {
         public void Load() {
             Plugins.Clear();
 
-            var type = typeof(IPlugin);
+            var types = new[]{
+                typeof(ID3DLabPlugin),
+                typeof(ID3DLabFileFormatPlugin),
+            };
             foreach (var pluginDll in Directory.GetFiles(directory, pluginFormatName, SearchOption.AllDirectories)) {
                 if (pluginDll.EndsWith(dll)) {
                     try {
@@ -36,11 +41,17 @@ namespace D3DLab.Plugin {
                             },
                             configure: config => config.DefaultContext = AssemblyLoadContext.Default);
 
-                        var types = loader.LoadDefaultAssembly().GetTypes();
+                        var loadedTypes = loader.LoadDefaultAssembly().GetTypes();
 
-                        foreach (var pluginType in types.Where(t => type.IsAssignableFrom(t) && !t.IsAbstract)) {
-                            if (Activator.CreateInstance(pluginType) is IPlugin plugin) {
-                                Plugins.Add(new LoadedPlugin(plugin, new FileInfo(pluginDll)));
+                        foreach (var pluginType in loadedTypes.Where(t => types.Any( x=> x.IsAssignableFrom(t)) && !t.IsAbstract)) {
+                            var instance = Activator.CreateInstance(pluginType);
+                            var path = new FileInfo(pluginDll);
+
+                            if (instance is ID3DLabPlugin plugin) {
+                                Plugins.Add(new LoadedPlugin(plugin, path));
+                            } 
+                            if(instance is ID3DLabFileFormatPlugin ffplugin) {
+                                FileFormatPlugins.Add(new LoadedFileFormatPlugin(ffplugin, path));
                             }
                         }
 

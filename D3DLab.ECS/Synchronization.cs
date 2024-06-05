@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace D3DLab.ECS {
    
@@ -95,6 +96,10 @@ namespace D3DLab.ECS {
                     queue.Enqueue(new QueueItem<TInput>(action, input));
                 }
             }
+        }
+
+        public Task InvokeAsync<TOwner>(TOwner owner, Action<TOwner> action) {
+           throw new NotImplementedException();
         }
 
         public void Dispose() {

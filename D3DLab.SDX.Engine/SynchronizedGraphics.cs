@@ -103,5 +103,9 @@ namespace D3DLab.SDX.Engine {
                 Task.Run(()=>callback.Invoke(btm));
             }, new Size());
         }
+
+        public Task InvokeAsync<TOwner>(TOwner owner, Action<TOwner> action) {
+            throw new NotImplementedException();
+        }
     }
 }

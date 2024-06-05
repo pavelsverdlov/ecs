@@ -44,7 +44,11 @@ namespace D3DLab.ECS {
             }
             public void UpdateComponents<T>(ElementTag tagEntity, T com) where T : IGraphicComponent { }
 
-            Task IComponentManager.UpdateComponents<T>(ElementTag tagEntity, T com) {
+            public Task UpdateComponents<T>(ElementTag tagEntity, params T[] newComponents) where T : IGraphicComponent {
+                throw new NotImplementedException();
+            }
+
+            Task IComponentManager.UpdateComponent<T>(ElementTag tagEntity, T com) {
                 throw new NotImplementedException();
             }
         }
@@ -126,7 +130,10 @@ namespace D3DLab.ECS {
             return this;
         }
         public Task UpdateComponent<T>(T com) where T : IGraphicComponent {
-            return manager.UpdateComponents(Tag, com);
+            return manager.UpdateComponent(Tag, com);
+        }
+        public Task UpdateComponents<T>(params T[] coms) where T : IGraphicComponent {
+            return manager.UpdateComponents(Tag, coms);
         }
 
         public bool Contains(params Type[] types) {
