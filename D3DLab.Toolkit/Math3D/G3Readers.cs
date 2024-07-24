@@ -43,9 +43,9 @@ namespace D3DLab.Toolkit.Math3D {
             }
         }
 
-        public static IEnumerable<IFileGeometry3D> ReadStl(FileInfo file) {
-            var builder = new SimpleMeshBuilder();
-            var stl = new STLReader();
+        public static ASCIIBinarySTLGeometry ReadStl(FileInfo file) {
+            //var builder = new SimpleMeshBuilder();
+            //var stl = new STLReader();
             IOReadResult res;
             var reader = new ASCIIBinarySTLParser();
             using (var fs = file.OpenRead()) {
@@ -54,7 +54,8 @@ namespace D3DLab.Toolkit.Math3D {
                 //    res = stl.Read(br, new ReadOptions { }, builder);
                 //}
             }
-            return reader.Geometry;
+
+            return reader.Result;
 
             //    if (res.code == IOCode.Ok && builder.Meshes.Any()) {
             //        var mesh = builder.Meshes.Single();

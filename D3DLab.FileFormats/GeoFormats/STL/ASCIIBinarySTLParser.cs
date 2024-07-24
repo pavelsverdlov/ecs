@@ -10,6 +10,12 @@ using System.Numerics;
 using System.Text;
 
 namespace D3DLab.FileFormats.GeoFormats.STL {
+
+    public sealed class ASCIIBinarySTLGeometry {
+        public string Header { get; set; }
+        public IEnumerable<IFileGeometry3D> Geometries { get; set; }
+    }
+
     public sealed class ASCIIBinarySTLParser : IUtf8SpanReader {
         class Geo {
             private readonly Vector4 color;
@@ -34,9 +40,13 @@ namespace D3DLab.FileFormats.GeoFormats.STL {
             }
         }
 
-        public List<IFileGeometry3D> Geometry => map.Values.Select(x => x.GetMesh()).ToList();
-
-        Dictionary<Vector4, Geo> map = new Dictionary<Vector4, Geo>();
+        public ASCIIBinarySTLGeometry Result => new ASCIIBinarySTLGeometry{
+            Header = header,
+            Geometries = map.Values.Select(x => x.GetMesh()).ToList()
+        };
+        
+        readonly Dictionary<Vector4, Geo> map = new Dictionary<Vector4, Geo>();
+        string header;
 
         public void Read(Stream stream) {
             var asc = Encoding.ASCII;
@@ -46,7 +56,7 @@ namespace D3DLab.FileFormats.GeoFormats.STL {
                     head[i] = (byte)binary.ReadSByte();
                 }
 
-                var header = asc.GetString(head);
+                header = asc.GetString(head).Trim();
 
                 var triangles = binary.ReadInt32();
 
