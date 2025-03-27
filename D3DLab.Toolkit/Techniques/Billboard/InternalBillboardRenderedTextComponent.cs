@@ -22,14 +22,12 @@ namespace D3DLab.Toolkit.Techniques.Billboard {
         /// </summary>
         public float Scale { get; private set; }
 
-        static System.Windows.Media.Color ToMediaColor(Vector4 color) {
-            return System.Windows.Media.Color.FromArgb((byte)(color.W * 255f), (byte)(color.X * 255f), (byte)(color.Y * 255f), (byte)(color.Z * 255f));
-        }
+       
 
         public bool IsRendered(BillboardTextComponent text) => renderedTextCompTag == text.Tag;
 
         public void Render(BillboardTextComponent text) {
-            var color = new SolidColorBrush(ToMediaColor(text.TextColor));
+            var color = new SolidColorBrush(text.TextColor.ToColor());
             var formattedText = new FormattedText(text.Text, CultureInfo.InvariantCulture,
                 FlowDirection.LeftToRight, typeface, text.FontSize, color);
             formattedText.SetFontSize(100, 0, text.Text.Length);
